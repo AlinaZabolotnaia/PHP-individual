@@ -4,8 +4,8 @@ require_once 'db.php';
 
 // Проверка авторизации
 // Проверка авторизации
-if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
-    header('Location: dashboard.php');
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php'); 
     exit;
 }
 

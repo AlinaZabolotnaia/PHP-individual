@@ -12,9 +12,9 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 // Получение задач пользователя
-$stmt = $pdo->prepare("SELECT * FROM tasks WHERE user_id = :user_id ORDER BY created_at DESC");
-$stmt->execute(['user_id' => $_SESSION['user_id']]);
-$tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt_tasks = $pdo->prepare("SELECT * FROM tasks WHERE user_id = :user_id ORDER BY created_at DESC");
+$stmt_tasks->execute(['user_id' => $_SESSION['user_id']]);
+$tasks = $stmt_tasks->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +30,10 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <p>
     <a href="create_task.php">➕ Создать новую задачу</a> |
-    <a href="search.php">🔍 Поиск задач</a> |
+    <a href="search.php">🔍 Поиск задач</a>
+    <?php if (isAdmin()): ?>
+        <a href="admin.php">🛠 Админ-панель</a> |
+    <?php endif; ?> |
     <a href="logout.php">🚪 Выйти</a>
 </p>
 
@@ -41,14 +44,16 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php else: ?>
         <?php
 // Получаем статистику
-$stmt = $pdo->prepare(  "SELECT 
-COUNT(*) AS total,
-SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed,
-SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pending
-FROM tasks
-WHERE user_id = :user_id");
-$stmt->execute(['user_id' => $_SESSION['user_id']]);
-$stats = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt_stats = $pdo->prepare("
+    SELECT 
+        COUNT(*) AS total,
+        SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) AS completed,
+        SUM(CASE WHEN status = 'Pending' THEN 1 ELSE 0 END) AS pending
+    FROM tasks
+    WHERE user_id = :user_id
+");
+$stmt_stats->execute(['user_id' => $_SESSION['user_id']]);
+$stats = $stmt_stats->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <h3>Статистика:</h3>
