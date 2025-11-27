@@ -124,13 +124,12 @@
 
 - **Форма регистрации:**
 
-/Users/azabolotnaia/Desktop/Screenshot 2025-11-27 at 12.42.17.png
-
+![alt text](<Screenshot 2025-11-27 at 12.42.17.png>)
 - **Вход:**
 ![alt text](<Screenshot 2025-11-27 at 12.44.22.png>)
 
 - **Панель пользователя:**
-/Users/azabolotnaia/Desktop/Screenshot 2025-11-27 at 12.57.15.png
+![alt text](<Screenshot 2025-11-27 at 12.57.15.png>)
 
 - **Создание задачи:**
 
